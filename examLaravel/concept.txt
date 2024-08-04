@@ -1,0 +1,61 @@
+user
+- id
+- username
+- id
+- password
+- is_admin
+- timestamps
+- avatar ('file')
+
+
+userController
+- weergeven profiel
+- edit profiel
+- edit settings (password update)
+
+adminController
+- admin pannel 
+- 
+
+posts
+- id
+- titel
+- content
+- timestamps
+- timestemp('posted_at')
+
+
+postController
+- all posts visible
+- newPostForm visible (admin)
+- createPost (admin)
+- editPostForm visible (admin)
+- editPost (admin)
+- deletePost (admin)
+
+comment
+- id
+- user_id
+- post_id
+- content
+
+commentController
+- user can post comment
+- user can edit comment
+
+
+FAQ vraag
+- id
+- vraag
+- antwoord
+- approved_by (admin user_id)
+
+FAQController
+- return questions-answers
+- ask question form
+- send questions to admin pannel
+
+
+Routes
+- route index (display posts)
+
