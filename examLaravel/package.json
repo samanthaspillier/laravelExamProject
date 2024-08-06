@@ -1,4 +1,7 @@
-{
+{   
+    "name": "malawian-tour",
+    "version": "1.0.0",
+    "description": "A project for my Laravel Exam", 
     "private": true,
     "type": "module",
     "scripts": {
