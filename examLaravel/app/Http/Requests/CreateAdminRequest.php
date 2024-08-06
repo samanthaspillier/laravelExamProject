@@ -2,16 +2,22 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class ProfileUpdateRequest extends FormRequest
+class CreateAdminRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return auth()->user()->is_admin;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -22,6 +28,14 @@ class ProfileUpdateRequest extends FormRequest
             'password' => ['required', 'string', 'min:8'],
             'birthday' => ['nullable', 'date'],
             'bio' => ['nullable', 'string'],
+            'is_admin' => ['required', 'boolean'],
+        ];
+    }
+        
+    public function messages(): array
+    {
+        return [
+            'is_admin.required' => 'The is_admin field is required.',
         ];
     }
 }
