@@ -54,11 +54,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.index') }}">{{ __('Other travelers') }}</a>
                     </li>
+                    <!-- 
+                    @if (auth()->user()->is_admin)
+                        @yield('adminHeader')
+                    @endif
+                    -->
                     
                     
                 @endguest
                 <li class="nav-item">
                         <a class="nav-link" href="{{ route('about') }}">{{ __('About') }}</a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link" href="{{ route('faq') }}">{{ __('FAQ') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>

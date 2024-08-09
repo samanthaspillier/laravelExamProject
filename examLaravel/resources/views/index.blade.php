@@ -10,9 +10,7 @@
                 <div class="card shadow-sm border-light h-100">
                     <div class="card-body d-flex flex-column">
                         <!-- Centered Title -->
-                        <h3 class="card-title text-center mb-2">
-                            <a href="{{ route('content.showPost', $post->id) }}" class="text-decoration-none text-primary">{{ $post->title }}</a>
-                        </h3>
+                        <h3 class="card-title text-center mb-2">{{ $post->title }}</h3>
                         @if ($post->cover_image)
                             <img src="{{ asset($post->cover_image) }}" class="img-fluid rounded mb-2" style="max-width: 100%; height: auto;" alt="{{ $post->title }}">
                         @endif

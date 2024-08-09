@@ -5,7 +5,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FaqController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\AdminMiddleware;
+
+
 
 
 Route::get('/', [App\Http\Controllers\PostController::class, 'index'])->name('index');
@@ -16,7 +20,8 @@ Route::get('/about', function(){
     return view('content.about');
 })->name('about');
 
-Route::get('/newComment/{post}', [PostController::class, 'displayPost'])->name('post.show');
+Route::get('/post/{post}', [PostController::class, 'displayPost'])->name('post.show');
+Route::get('/faq', [FaqController::class, 'showFAQ'])->name('faq');
 
 
 Route::middleware('auth')->group(function () {
@@ -29,11 +34,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/comments', [CommentController::class, 'storeComment'])->name('comments.store');
     
     // Admin-specific routes
-    Route::middleware('admin')->group(function () {
-        Route::put('/users/{id}/role', [AdminController::class, 'updateRole'])->name('admin.updateRole');
-        Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');
-        Route::get('/admin', [AdminController::class, 'admin.dashboard'])->name('admin.dashboard');
+    Route::middleware(['admin'])->group(function () {
+        Route::put('/users/{id}/role', [AdminController::class, 'updateRole'])->name('UpdateRole');
+        Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('adminCreate');
+        Route::get('/admin', [AdminController::class, 'dashboard'])->name('admindashboard');
+        Route::get('/admin/edit/{faq}', [AdminController::class, 'editFaq'])->name('editFaq');
+        Route::put('/admin/{faq}', [AdminController::class, 'updateFaq'])->name('updateFaq');
     });
+
+   
 });
 
 require __DIR__.'/auth.php';

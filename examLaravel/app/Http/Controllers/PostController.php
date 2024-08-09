@@ -10,15 +10,12 @@ use Illuminate\View\View;
 class PostController extends Controller
 {
     
-    public function __construct()
-    {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
-    }
-        
+   /**
+    * Show the index page.
+    */       
 
     public function index(): View
     {
-        // Retrieve the latest 10 posts
         $posts = Post::latest()->paginate(12);
 
         return view('index', compact('posts'));
@@ -27,7 +24,7 @@ class PostController extends Controller
  
 
     /**
-     * got to Post page
+     * go to Post page
      */
 
      public function displayPost(Post $post): View

@@ -5,14 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateAdminRequest;
 use App\Http\Requests\UpdateUserRoleRequest;
 
+
+
 use App\Models\User;
+use App\Models\FAQ;
+
+use App\Http\Middleware\AdminMiddleware;
+
+
+
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        // Apply the 'admin' middleware to all methods
+        $this->middleware('admin');
+    }
     /**
      * Create a new admin user.
      */
@@ -50,6 +64,28 @@ class AdminController extends Controller
         }
      
      }
+
+    public function editFaq($id): View
+    {
+        $faq = FAQ::findOrFail($id);
+        return view('admin.editFaq', compact('faq'));
+    }
+
+    public function updateFaq(Request $request, $id): RedirectResponse
+{
+    $request->validate([
+        'question' => 'required|string|max:255',
+        'answer' => 'required|string',
+    ]);
+
+    $faq = FAQ::findOrFail($id);
+    $faq->update([
+        'question' => $request->input('question'),
+        'answer' => $request->input('answer'),
+    ]);
+
+    return redirect()->back()->with('success', 'FAQ updated successfully');
+}
      
 }
 ?>
