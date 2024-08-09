@@ -24,11 +24,16 @@ class PostController extends Controller
         return view('index', compact('posts'));
     }
 
-    public function show($id): View
-    {
-        $post = Post::findOrFail($id);
-        return view('content.showPost', compact('post'));
-    }
+ 
+
+    /**
+     * got to Post page
+     */
+
+     public function displayPost(Post $post): View
+     {
+         return view('content.post', compact('post'));  
+     }
 
 
 }

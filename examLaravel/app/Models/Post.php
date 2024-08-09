@@ -15,7 +15,9 @@ class Post extends Model
         return $this->hasMany(Comment::class, 'post_id');
     }
 
- 
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
 
 
 

@@ -6,6 +6,9 @@ use App\Http\Requests\CreateCommentRequest;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+
 
 class CommentController extends Controller
 {
@@ -13,14 +16,7 @@ class CommentController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * got to "new comment" page
-     */
-
-     public function newComment(Post $post): View
-     {
-         return view('content.newComment', compact('post'));  
-     }
+ 
 
     /**
      * Create a new comment.
@@ -35,8 +31,9 @@ class CommentController extends Controller
             'post_id' => $validated['post_id'],
         ]);
 
-        return redirect()->back()->with('success', 'Comment created successfully');
-    }
+        return redirect()->route('content.showPost', $validated['post_id'])
+        ->with('success', 'Comment created successfully');
 
     
+}
 }

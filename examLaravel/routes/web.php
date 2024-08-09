@@ -16,11 +16,8 @@ Route::get('/about', function(){
     return view('content.about');
 })->name('about');
 
-Route::get('/showPost/{post}', [App\Http\Controllers\PostController::class, 'show'])->name('content.showPost');
+Route::get('/newComment/{post}', [PostController::class, 'displayPost'])->name('post.show');
 
-Route::get('/dashboard', function () {
-    return view('profile.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/users', [UserController::class, 'index'])->name('user.index');
 
-    Route::get('/newComment/{post}', [CommentController::class, 'newComment'])->name('comment.new');
+    Route::post('/comments', [CommentController::class, 'storeComment'])->name('comments.store');
     
     // Admin-specific routes
     Route::middleware('admin')->group(function () {

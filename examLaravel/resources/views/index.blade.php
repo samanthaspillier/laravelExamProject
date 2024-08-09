@@ -9,14 +9,22 @@
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card shadow-sm border-light h-100">
                     <div class="card-body d-flex flex-column">
-                        <h3 class="card-title mb-2">
+                        <!-- Centered Title -->
+                        <h3 class="card-title text-center mb-2">
                             <a href="{{ route('content.showPost', $post->id) }}" class="text-decoration-none text-primary">{{ $post->title }}</a>
                         </h3>
                         @if ($post->cover_image)
                             <img src="{{ asset($post->cover_image) }}" class="img-fluid rounded mb-2" style="max-width: 100%; height: auto;" alt="{{ $post->title }}">
                         @endif
+
+                        <!-- Display First Two Sentences of Content -->
+                        <p class="card-text">
+                            {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 150, '...') }}
+                        </p>
+
+                        <!-- Read More Button -->
                         @auth
-                            <a href="{{ route('comment.new', $post->id) }}" class="btn btn-primary btn-sm">Leave a Comment</a>
+                            <a href="{{ route('post.show', $post->id) }}" class="btn btn-primary btn-sm mt-auto">Read more</a>
                         @endauth
                     </div>
                 </div>
