@@ -39,6 +39,7 @@
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <a class="nav-link" href="{{ route('profile.edit') }}">Settings</a>
+                            <a class="nav-link" href="{{ route('profile.show', ['user' => auth()->user()->id]) }}">Profile</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
@@ -52,6 +53,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('users.index') }}">{{ __('Other travelers') }}</a>
                     </li>
                     
                     

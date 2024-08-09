@@ -25,6 +25,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
     Route::get('/newComment/{post}', [CommentController::class, 'newComment'])->name('comment.new');
     
     // Admin-specific routes
