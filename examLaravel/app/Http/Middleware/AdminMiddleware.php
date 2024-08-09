@@ -15,8 +15,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::user() || !Auth::user()->is_admin) {
-            // Redirect or abort if not an admin
+        if (!auth()->check() || !auth()->user()->is_admin) {
             return redirect('/home')->with('error', 'Unauthorized access');
         }
 

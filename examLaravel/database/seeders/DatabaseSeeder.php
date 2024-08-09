@@ -20,13 +20,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(15)->create();
-
+/*
         User::factory()->admin()->create([
             'name' => 'admin',
-            'username' => 'admin',
             'email' => 'admin@ehb.be',
             'password' => Hash::make('Password!123'),
         ]);
+
+        */
         User::factory()->admin()->create();
 
         Post::factory(10)->create();

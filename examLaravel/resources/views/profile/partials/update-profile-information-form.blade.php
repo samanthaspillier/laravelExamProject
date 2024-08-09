@@ -1,10 +1,10 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="h4">
             {{ __('Profile Information') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p class="text-muted">
             {{ __("Update your account's profile information and email address.") }}
         </p>
     </header>
@@ -13,51 +13,106 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-4" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
-        </div>
-
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
-
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
-
-                        <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
-
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-bold">{{ __('Name') }}</label>
+                    <input id="name" name="name" type="text" class="form-control" style="max-width: 400px;" value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
+                    @if($errors->has('name'))
+                        <div class="text-danger mt-2">
+                            {{ $errors->first('name') }}
+                        </div>
                     @endif
                 </div>
-            @endif
-        </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-bold">{{ __('Email') }}</label>
+                    <input id="email" name="email" type="email" class="form-control" style="max-width: 400px;" value="{{ old('email', $user->email) }}" required autocomplete="username">
+                    @if($errors->has('email'))
+                        <div class="text-danger mt-2">
+                            {{ $errors->first('email') }}
+                        </div>
+                    @endif
+
+                    @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                        <div class="mt-2">
+                            <p class="text-muted">
+                                {{ __('Your email address is unverified.') }}
+
+                                <button form="send-verification" class="btn btn-link p-0">
+                                    {{ __('Click here to re-send the verification email.') }}
+                                </button>
+                            </p>
+
+                            @if (session('status') === 'verification-link-sent')
+                                <p class="text-success">
+                                    {{ __('A new verification link has been sent to your email address.') }}
+                                </p>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+
+                <div class="mb-3">
+                    <label for="birthday" class="form-label fw-bold">{{ __('Birthday') }}</label>
+                    <input id="birthday" name="birthday" type="date" class="form-control" style="max-width: 400px;" value="{{ old('birthday', $user->birthday) }}" autocomplete="birthday">
+                    @if($errors->has('birthday'))
+                        <div class="text-danger mt-2">
+                            {{ $errors->first('birthday') }}
+                        </div>
+                    @endif
+                </div>
+                <div class="mb-3">
+                    <label for="avatar" class="form-label fw-bold">{{ __('Change Avatar') }}</label>
+                    <input id="avatar" name="avatar" type="file" class="form-control" style="max-width: 400px;" >
+                    @error('avatar')
+                        <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                @if ($isAdmin)
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Admin Role</label>
+                    <button type="button" class="btn btn-info">Admin: {{ $isAdmin ? 'True' : 'False' }}</button>
+                </div>
+                @endif
+
+               
+              
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-4 d-flex justify-content-center align-items-start">
+                @if ($user->avatar)
+                    <div class="mb-3 d-flex justify-content-center align-items-start" >
+                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="Current Avatar" class="img-fluid rounded h-75">
+                    </div>
+                @endif
+            </div>
+        </div>
+        <div class="mb-3">
+                    <label for="bio" class="form-label fw-bold">{{ __('About You') }}</label>
+                    <span class="text-muted">Provide a brief description about yourself.</span>
+                    <textarea id="bio" name="bio" rows="4" class="form-control">{{ old('bio', $user->bio) }}</textarea>
+                    @if($errors->has('bio'))
+                        <div class="text-danger mt-2">
+                            {{ $errors->first('bio') }}
+                        </div>
+                    @endif
+                </div>
+
+        <div class="d-flex align-items-center gap-2">
+            <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
 
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
+                <p class="text-success mb-0">
+                    {{ __('Saved.') }}
+                </p>
             @endif
         </div>
     </form>

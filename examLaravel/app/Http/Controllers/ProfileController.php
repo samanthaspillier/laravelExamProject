@@ -16,8 +16,11 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+    
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
+            'isAdmin' => $user->is_admin,
         ]);
     }
 
@@ -26,10 +29,21 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user=$request->user();
+        
+        //->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
+        }
+
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            $path = $avatar->storeAs('public/images/avatars', $filename);
+
+            // Save the avatar path in the database
+            $user->avatar = 'images/avatars/' . $filename;
         }
 
         $request->user()->save();

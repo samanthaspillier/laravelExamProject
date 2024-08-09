@@ -30,7 +30,6 @@ class CommentFactory extends Factory
             'user_id' => User::inRandomOrder()->first()->id, // Get a random user ID
             'post_id' => Post::inRandomOrder()->first()->id, // Get a random post ID
             'content' => $this->faker->paragraph, //content of the comment
-            'published_at'=> $publishedAt,  
             'created_at' => $publishedAt,
             'updated_at' => now(),
         ];

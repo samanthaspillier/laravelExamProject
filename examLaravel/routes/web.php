@@ -6,18 +6,19 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\PostController::class, 'index'])->name('index');
+
+Route::get('/home', [App\Http\Controllers\PostController::class, 'index'])->name('home');
 
 Route::get('/about', function(){
     return view('content.about');
 })->name('about');
 
+Route::get('/showPost/{post}', [App\Http\Controllers\PostController::class, 'show'])->name('content.showPost');
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('profile.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -30,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::put('/users/{id}/role', [AdminController::class, 'updateRole'])->name('admin.updateRole');
         Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');
-        Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('/admin', [AdminController::class, 'admin.dashboard'])->name('admin.dashboard');
     });
 });
 
