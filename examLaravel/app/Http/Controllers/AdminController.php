@@ -72,7 +72,7 @@ class AdminController extends Controller
     }
 
     public function updateFaq(Request $request, $id): RedirectResponse
-{
+    {
     $request->validate([
         'question' => 'required|string|max:255',
         'answer' => 'required|string',
@@ -85,7 +85,13 @@ class AdminController extends Controller
     ]);
 
     return redirect()->back()->with('success', 'FAQ updated successfully');
-}
+    }
+
+    public function dashboard(): View
+    {
+        
+        return view('admin.dashboard');
+    }
      
 }
 ?>

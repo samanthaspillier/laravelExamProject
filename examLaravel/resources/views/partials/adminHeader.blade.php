@@ -1,6 +1,6 @@
-@section('adminHeader')
+<section>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.dashboard') }}">{{ __('Admin Panel') }}</a>
     </li>
-@endsection
+</section>

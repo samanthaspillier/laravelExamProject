@@ -24,6 +24,11 @@
                 </div>
             </div>
         @endforeach
+        @auth
+        @if (auth()->user()->is_admin)
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-warning mt-3">Add new question</a>
+        @endif
+        @endauth     
     </div>
 </div>
 @endsection

@@ -34,10 +34,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/comments', [CommentController::class, 'storeComment'])->name('comments.store');
     
     // Admin-specific routes
-    Route::middleware(['admin'])->group(function () {
+    Route::middleware(['admin'])->group(function (){
         Route::put('/users/{id}/role', [AdminController::class, 'updateRole'])->name('UpdateRole');
         Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('adminCreate');
-        Route::get('/admin', [AdminController::class, 'dashboard'])->name('admindashboard');
+        Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/admin/edit/{faq}', [AdminController::class, 'editFaq'])->name('editFaq');
         Route::put('/admin/{faq}', [AdminController::class, 'updateFaq'])->name('updateFaq');
     });

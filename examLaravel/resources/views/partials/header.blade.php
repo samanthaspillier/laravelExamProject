@@ -54,11 +54,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.index') }}">{{ __('Other travelers') }}</a>
                     </li>
-                    <!-- 
+                    
                     @if (auth()->user()->is_admin)
-                        @yield('adminHeader')
+                        @include('partials.adminHeader')
                     @endif
-                    -->
+                    
                     
                     
                 @endguest
