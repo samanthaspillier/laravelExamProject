@@ -55,13 +55,17 @@
                         <a class="nav-link" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('users.index') }}">{{ __('Other travelers') }}</a>
+                        <a class="nav-link" href="{{ route('user.index') }}">{{ __('Other travelers') }}</a>
                     </li>
                     
                     
                 @endguest
                 <li class="nav-item">
                         <a class="nav-link" href="{{ route('about') }}">{{ __('About') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
+                </li>
             </ul>
         </div>
     </div>

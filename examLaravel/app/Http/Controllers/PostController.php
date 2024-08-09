@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+
 class PostController extends Controller
 {
     
