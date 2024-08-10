@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Malawian Tours - Admin Pannel') }}</title>
+    <title>{{ config('app.name', 'Malawian Tours - Admin') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -16,11 +16,10 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-    <div id="app">
-        @include('partials.header')
+<body class="d-flex flex-column min-vh-100">
+        @include('partials.adminHeader')
 
-        <main class="py-4">
+        <main class="py-4 flex-grow-1">
             <div class="container">
             <h1 class="text-center mb-4">@yield('title')</h1>
             @yield('content')
@@ -28,6 +27,6 @@
 
             </div>
         </main>
-    </div>
+        @include('partials.footer')
 </body>
 </html>

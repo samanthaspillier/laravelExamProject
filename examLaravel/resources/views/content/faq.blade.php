@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(auth()->check() && auth()->user()->isAdmin() ? 'layouts.admin' : 'layouts.app')
 
 @section('title', 'Frequently Asked Questions')
 
@@ -16,7 +16,7 @@
                         <p class="card-text">{{ $faq->answer }}</p>
 
                         @auth
-                        @if (auth()->user()->is_admin)
+                        @if (auth()->user()->isAdmin())
                                 <a href="{{ route('editFaq', $faq->id) }}" class="btn btn-warning btn-sm mt-3">Edit</a>
                         @endif
                         @endauth                   

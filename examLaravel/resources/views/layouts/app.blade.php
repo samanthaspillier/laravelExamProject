@@ -16,11 +16,11 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-    <div id="app">
+<body class="d-flex flex-column min-vh-100">
+ 
         @include('partials.header')
 
-        <main class="py-4">
+        <main class="py-4 flex-grow-1">
             <div class="container">
             <h1 class="text-center mb-4">@yield('title')</h1>
             @yield('content')
@@ -28,6 +28,7 @@
 
             </div>
         </main>
-    </div>
+        @include('partials.footer')
+   
 </body>
 </html>

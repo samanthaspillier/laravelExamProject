@@ -59,6 +59,11 @@ class User extends Authenticatable
         return self::all();
     }
 
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
+
     
 
 
