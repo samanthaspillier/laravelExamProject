@@ -1,30 +1,18 @@
-@extends(auth()->check() && auth()->user()->isAdmin() ? 'layouts.admin' : 'layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'Settings')
+@section('title', 'Edit User')
 
 @section('content')
     <div class="container my-5">
-        <div class="row">
+
             <!-- Update Profile Information -->
             <div class="col-md-8 mb-4">
                 <div class="card">
                     <div class="card-header">
-                        Update Profile Information
+                        Update User Information
                     </div>
                     <div class="card-body">
-                        @include('profile.partials.update-profile-information-form')
-                    </div>
-                </div>
-            </div>
-
-            <!-- Update Password -->
-            <div class="col-md-8 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        Update Password
-                    </div>
-                    <div class="card-body">
-                        @include('profile.partials.update-password-form')
+                    @include('profile.partials.update-profile-information-form', ['user' => $user])
                     </div>
                 </div>
             </div>

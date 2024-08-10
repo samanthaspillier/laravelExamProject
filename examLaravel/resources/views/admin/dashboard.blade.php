@@ -1,16 +1,32 @@
-@extends('layouts.admin')  
-@section('title', 'Admin Panel')
+@extends('layouts.admin')
+
 @section('content')
-<div class="container my-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="h3 mb-3">Admin Panel</h1>
-                    <p>Welcome to the admin panel. Here you can manage the content of the website.</p>
-                    
-                </div>
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bg-dark text-white sidebar py-4">
+            <h4 class="text-center">Admin Panel</h4>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#post-management">Post Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#faq-management">FAQ Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#user-management">User Management</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-10 py-4">
+            <!-- Post Management Section -->
+            @include('admin.partials.postManagement')
+
+            <!-- FAQ Management Section -->
+            @include('admin.partials.faqManagement')
+
+            <!-- User Management Section -->
+            @include('admin.partials.userManagement')
         </div>
     </div>
 </div>

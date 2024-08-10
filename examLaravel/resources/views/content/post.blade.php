@@ -72,6 +72,11 @@
                         <button type="submit" class="btn btn-primary">Submit Comment</button>
                     </div>
                 </form>
+            
+                @if (auth()->user()->is_admin)
+                        <a href="{{ route('editPost', ['post' => $post->id]) }}" class="btn btn-warning mt-3">Edit</a>
+                @endif
+                
             @endauth
 
         </div>

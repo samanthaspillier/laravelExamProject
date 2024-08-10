@@ -28,7 +28,7 @@ Route::get('/faq', [FaqController::class, 'showFAQ'])->name('faq');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/delete/{user}', [ProfileController::class, 'destroy'])->name('profile.delete');
     Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/users', [UserController::class, 'index'])->name('user.index');
 
@@ -39,16 +39,34 @@ Route::middleware('auth')->group(function () {
         Route::put('/users/{id}/role', [AdminController::class, 'updateRole'])->name('UpdateRole');
         Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('adminCreate');
         Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
+        Route::get('/admin/users/search', [AdminController::class, 'searchUsers'])->name('admin.users.search');
+
+
+        Route::get('/admin/faq/create', [AdminController::class, 'createFaq'])->name('createFaq');
+        Route::post('/admin/faq', [AdminController::class, 'storeFaq'])->name('storeFaq');
         Route::get('/admin/edit/{faq}', [AdminController::class, 'editFaq'])->name('editFaq');
         Route::put('/admin/{faq}', [AdminController::class, 'updateFaq'])->name('updateFaq');
-    });
+        Route::get('/faq/delete/{faq}', [AdminController::class, 'deleteFaq'])->name('deleteFaq');
+
+
+        
+        Route::get('/admin/post/create', [AdminController::class, 'createPost'])->name('createPost');
+        Route::post('/admin/post', [AdminController::class, 'storePost'])->name('storePost');
+        Route::get('/admin/post/{post}/edit', [AdminController::class, 'editPost'])->name('editPost');
+        Route::put('/admin/post/{post}', [AdminController::class, 'updatePost'])->name('updatePost');
+        Route::get('/posts/delete/{post}', [AdminController::class, 'deletePost'])->name('deletePost');
+
+         });
 
    
 });
 
+
 require __DIR__.'/auth.php';
 
 Auth::routes();
+
 
 
 

@@ -30,47 +30,62 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $user=$request->user();
-        
-        //->fill($request->validated());
+        $user = User::findOrFail($id);
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+    // Validate the input
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        'birthday' => 'nullable|date',
+        'avatar' => 'nullable|image|max:2048',
+        'role' => 'in:admin,user' // Validate the role field
+    ]);
 
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $filename = time() . '.' . $avatar->getClientOriginalExtension();
-            $path = $avatar->storeAs('public/images/avatars', $filename);
+    // Update the user's data
+    $user->update([
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'birthday' => $validated['birthday'],
+        'bio' => $request->input('bio'),
+        'role' => $validated['role'] === 'admin' ? 1 : 0, // Assuming role is stored as an integer
+    ]);
 
-            // Save the avatar path in the database
-            $user->avatar = 'images/avatars/' . $filename;
-        }
+    // Handle avatar upload if present
+    if ($request->hasFile('avatar')) {
+        $path = $request->file('avatar')->store('avatars', 'public');
+        $user->update(['avatar' => $path]);
+    }
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    return redirect()->route('profile.edit', $user->id)->with('status', 'profile-updated');
     }
 
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, $todelete): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
-
+    
         $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        $userToDelete = User::findOrFail($todelete);
+    
+        // Additional checks if needed
+        if ($userToDelete->id === $user->id) {
+            // Handle account deletion for the authenticated user
+            $userToDelete->delete();
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+    
+            return Redirect::to('/')->with('status', 'account-deleted');
+        } else {
+            // Handle deletion of other users
+            $userToDelete->delete();
+            return Redirect::route('admin.dashboard')->with('status', 'user-deleted');
+        }
+       
     }
 
     /**
