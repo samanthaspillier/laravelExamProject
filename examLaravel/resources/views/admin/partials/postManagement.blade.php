@@ -1,21 +1,18 @@
 <section id="post-management" class="mb-5">
     <h3>Post Management</h3>
     <div class="card">
-        <div class="card-header">
-            Manage Posts
-        </div>
+     
         <div class="card-body">
             <!-- Dropdown to select a post to edit -->
             <div class="mb-3">
-                <label for="postDrowdown" class="form-label">Select a Post to Edit</label>
                 <select id="postDrowdown" class="form-select" onchange="window.location.href=this.value;">
-                    <option value="">Select a post...</option>
+                    <option value="">Select a post to edit...</option>
                     @foreach($allPosts as $post)
                         <option value="{{ route('editPost', $post->id) }}">{{ $post->title }}</option>
                     @endforeach
                 </select>
             </div>
-            <!-- Table for listing posts -->
+            <!-- Table for listing latest posts -->
             <table class="table table-striped">
                 <thead>
                     <tr>

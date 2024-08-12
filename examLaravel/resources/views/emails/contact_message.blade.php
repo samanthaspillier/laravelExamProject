@@ -6,6 +6,7 @@
 </head>
 <body>
     <p><strong>Subject:</strong> {{ $subject }}</p>
+    <p><strong>Category:</strong> {{ $category }}</p>
     <p><strong>Message:</strong></p>
     <blockquote>{{ $content }}</blockquote>
 </body>

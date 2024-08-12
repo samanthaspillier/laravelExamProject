@@ -39,6 +39,7 @@ class ContactMessageAnswered extends Mailable
         return $this->view('emails.contact_message_answered')
                     ->subject('Your Contact Message Has Been Answered')
                     ->with([
+                        'name' => $this->message->name,
                         'subject' => $this->message->subject,
                         'originalMessage' => $this->message->message,
                         'answer' => $this->answer,

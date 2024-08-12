@@ -9,9 +9,8 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Email</th>
                         <th>Subject</th>
+                        <th>Category</th> <!-- Added column for Category -->
                         <th>Message</th>
                         <th>Actions</th>
                     </tr>
@@ -19,9 +18,8 @@
                 <tbody>
                     @foreach($unansweredMessages as $message)
                         <tr>
-                            <td>{{ $message->id }}</td>
-                            <td>{{ $message->email }}</td>
                             <td>{{ $message->subject }}</td>
+                            <td>{{ $message->category }}</td>
                             <td>{{ \Str::limit($message->message, 50) }}</td>
                             <td>
                                 <a href="{{ route('answerMessage', $message->id) }}" class="btn btn-primary btn-sm">Answer</a>

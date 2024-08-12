@@ -1,9 +1,7 @@
 <section id="user-management">
     <h3>User Management</h3>
     <div class="card">
-        <div class="card-header">
-            Manage Users
-        </div>
+       
         <div class="card-body">
             
             <!-- Search Form -->
@@ -17,14 +15,14 @@
             <!-- Dropdown to select a user to edit -->
             <div class="mb-3">
                 <select id="userDropdown" class="form-select" onchange="window.location.href=this.value;">
-                    <option value="">Select a user...</option>
+                    <option value="">Select a user to edit...</option>
                     @foreach($allUsers as $user)
                         <option value="{{ route('admin.users.edit', $user->id) }}">{{ $user->name }}</option>
                     @endforeach
                 </select>
             </div>
 
-            <!-- Table for listing latest 5 users -->
+            <!-- Table for listing latest users -->
             <table class="table table-striped">
                 <thead>
                     <tr>

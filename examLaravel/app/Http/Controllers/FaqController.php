@@ -14,7 +14,7 @@ class FaqController extends Controller
 
     public function showFAQ(): View
     {
-        $faqs = Faq::all();
+        $faqs = FAQ::orderBy('category')->get();
         return view('content.faq', compact('faqs'));
     }
 }

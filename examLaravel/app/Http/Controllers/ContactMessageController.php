@@ -28,16 +28,14 @@ class ContactMessageController extends Controller
         'email' => 'required|email|max:255',
         'subject' => 'required|string|max:255',
         'message' => 'required|string',
-    ]);
+        'category' => 'required|string|in:faq_request,other',    ]);
 
     // Store the contact message in the database
     $contactMessage = ContactMessage::create($request->all());
    
 
-    \Log::info('Sending email to: ' . $contactMessage->email); 
     // Send the email to the admin
     Mail::to('admin@example.com')->send(new ContactMessageReceived($contactMessage));
-    \Log::info('Email sent to: ' . $contactMessage->email);
 
    
 

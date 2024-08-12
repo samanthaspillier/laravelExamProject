@@ -269,10 +269,8 @@ class AdminController extends Controller
       
 
     
-        \Log::info('Sending email to: ' . $message->email); 
         // Send the answer via email
         Mail::to($message->email)->send(new ContactMessageAnswered($message, $answer));
-        \Log::info('Email sent to: ' . $message->email);
         
         // Update the message to mark it as answered in the database
         $message->update([

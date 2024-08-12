@@ -24,6 +24,15 @@
         </div>
 
         <div class="mb-3">
+            <label for="category" class="form-label">{{ __('Category') }}</label>
+            <select id="category" name="category" class="form-select" required>
+                <option value="" disabled selected>{{ __('Choose a category') }}</option>
+                <option value="faq_request">{{ __('FAQ Request') }}</option>
+                <option value="other">{{ __('Other') }}</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
             <label for="subject" class="form-label">{{ __('Subject') }}</label>
             <input id="subject" name="subject" type="text" class="form-control" placeholder="{{ __('Subject of your message') }}" required>
         </div>

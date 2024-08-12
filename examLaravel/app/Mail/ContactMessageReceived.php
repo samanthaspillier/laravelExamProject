@@ -30,6 +30,8 @@ class ContactMessageReceived extends Mailable
                     ->with([
                         'subject' => $this->message->subject, // Accessing object properties
                         'content' => $this->message->message,
+                        'category' => $this->message->category, // Add category here
+
                     ]);
     }
 }

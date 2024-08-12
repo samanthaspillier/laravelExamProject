@@ -9,6 +9,7 @@
     <p><strong>Original Message:</strong></p>
     <blockquote>{{ $originalMessage }}</blockquote>
     <p><strong>Your Answer:</strong></p>
+    <p>Dear {{ $name }},</p>
     <blockquote>{{ $answer }}</blockquote>
 </body>
 </html>
