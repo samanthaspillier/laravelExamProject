@@ -31,7 +31,7 @@ class CommentController extends Controller
             'post_id' => $validated['post_id'],
         ]);
 
-        return redirect()->route('content.showPost', $validated['post_id'])
+        return redirect()->route('post.show', $validated['post_id'])
         ->with('success', 'Comment created successfully');
 
     

@@ -39,9 +39,10 @@ class DatabaseSeeder extends Seeder
 
         //Comment::factory(5)->create();
 
-       $this->call(FaqSeeder::class);
+       // $this->call(FaqSeeder::class);
         
-        $this->call(ContactMessageSeeder::class);
+        // $this->call(ContactMessageSeeder::class);
+        $this->call(PostSeeder::class);
 
     
     
