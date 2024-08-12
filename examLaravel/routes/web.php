@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\ContactMessageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 
@@ -22,6 +23,8 @@ Route::get('/about', function(){
 
 Route::get('/post/{post}', [PostController::class, 'displayPost'])->name('post.show');
 Route::get('/faq', [FaqController::class, 'showFAQ'])->name('faq');
+Route::get('/contact', [ContactMessageController::class, 'showForm'])->name('contactForm');
+Route::post('/contact', [ContactMessageController::class, 'submitForm'])->name('contact.submit');
 
 
 
@@ -41,6 +44,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
         Route::get('/admin/users/search', [AdminController::class, 'searchUsers'])->name('admin.users.search');
+        Route::get('/admin/message/{message}/answer', [AdminController::class, 'answerMessageForm'])->name('answerMessage');
+        Route::post('/admin/message/{message}/answer', [AdminController::class, 'submitAnswer'])->name('submitAnswer');
+
 
 
         Route::get('/admin/faq/create', [AdminController::class, 'createFaq'])->name('createFaq');

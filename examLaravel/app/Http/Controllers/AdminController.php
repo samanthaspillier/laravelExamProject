@@ -4,23 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateAdminRequest;
 use App\Http\Requests\UpdateUserRoleRequest;
+use App\Http\Requests\ProfileUpdateRequest;
 
+use App\Http\Middleware\AdminMiddleware;
 
 
 use App\Models\User;
 use App\Models\FAQ;
 use App\Models\Post;
-
-use App\Http\Middleware\AdminMiddleware;
-
-
+use App\Models\ContactMessage;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
+
+
+
+
+use App\Mail\ContactMessageAnswered;
+
 
 class AdminController extends Controller
 {
@@ -38,8 +44,9 @@ class AdminController extends Controller
         $faqs=FAQ::all();
         $users = User::orderBy('created_at', 'desc')->take(10)->get(); // lastest created users for display
         $allUsers = User::orderBy('name', 'asc')->get(); // All users for dropdown
+        $unansweredMessages = ContactMessage::where('answered', false)->get();
         
-        return view('admin.dashboard', compact(['posts', 'faqs', 'users', 'allPosts', 'allUsers']));
+        return view('admin.dashboard', compact(['posts', 'faqs', 'users', 'allPosts', 'allUsers', 'unansweredMessages']));
     }
 
     /**
@@ -239,6 +246,47 @@ class AdminController extends Controller
         // Redirect back with a success message
         return redirect()->route('admin.dashboard')->with('status', 'post-deleted');
     }
+
+    /**
+     * message related admin methods
+     */
+    public function answerMessageForm($id): View
+    {
+        $message = ContactMessage::findOrFail($id);
+        return view('admin.answerMessage', compact('message'));
+    }
+    
+    public function submitAnswer(Request $request, $id): RedirectResponse
+    {
+        // Validate the request
+        $request->validate([
+            'answer' => 'required|string',
+        ]);
+    
+        // Find the contact message
+        $message = ContactMessage::findOrFail($id);
+        $answer = $request->input('answer');
+      
+
+    
+        \Log::info('Sending email to: ' . $message->email); 
+        // Send the answer via email
+        Mail::to($message->email)->send(new ContactMessageAnswered($message, $answer));
+        \Log::info('Email sent to: ' . $message->email);
+        
+        // Update the message to mark it as answered in the database
+        $message->update([
+            'answered' => true,
+            'answer' => $answer,
+        ]);
+    
+        // Redirect back with a success message
+        return redirect()->route('admin.dashboard')->with('status', 'Message answered and email sent successfully');
+    }
+    
+    
+
+
 
      
 }

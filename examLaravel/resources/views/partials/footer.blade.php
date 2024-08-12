@@ -8,7 +8,7 @@
                         <a class="nav-link" href="{{ route('faq') }}">{{ __('FAQ') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/contact" class="nav-link">Contact Us</a>
+                        <a href="{{ route('contactForm') }}" class="nav-link">Contact Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('about') }}">{{ __('About') }}</a>

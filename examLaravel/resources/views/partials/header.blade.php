@@ -55,10 +55,7 @@
                         <a class="nav-link" href="{{ route('user.index') }}">{{ __('Other travelers') }}</a>
                     </li>
                     
-                    @if (auth()->user()->is_admin)
-                        @include('partials.adminHeader')
-                    @endif
-                    
+                                       
                     
                     
                 @endguest

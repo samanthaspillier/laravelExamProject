@@ -19,6 +19,8 @@
         </div>
 
         <div class="col-md-10 py-4">
+            <!-- Contact Messages Section -->
+            @include('admin.partials.contactManagement')
             <!-- Post Management Section -->
             @include('admin.partials.postManagement')
 
