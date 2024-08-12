@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Requests\ProfileUpdateRequest;
+
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,35 +28,39 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request, $id): RedirectResponse
+    public function update(Request $request, $toupdate): RedirectResponse
     {
-        $user = User::findOrFail($id);
+        $userToUpdate = User::findOrFail($toupdate);
+        $requestor = $request->user();
+        // Debugging: dump user ID to make sure it's correct
+        \Log::debug('Updating user: ' . $userToUpdate->id);
 
-    // Validate the input
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-        'birthday' => 'nullable|date',
-        'avatar' => 'nullable|image|max:2048',
-        'role' => 'in:admin,user' // Validate the role field
-    ]);
+        // Validate the input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $userToUpdate->id, // Ensure the email is unique but exclude this user's ID
+            'birthday' => 'nullable|date',
+            'bio' => 'nullable|string',
+            'avatar' => 'nullable|image|max:2048',
+            'role' => 'in:admin,user' // Validate the role field
+        ]);
+    
+        // Update the user's data
+        $userToUpdate->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'birthday' => $validated['birthday'],
+            'bio' => $validated['bio'],
+            'role' => $validated['role'] === 'admin' ? true : false,
+        ]);
 
-    // Update the user's data
-    $user->update([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'birthday' => $validated['birthday'],
-        'bio' => $request->input('bio'),
-        'role' => $validated['role'] === 'admin' ? true : false,
-    ]);
+        // Handle avatar upload if present
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $userToUpdate->update(['avatar' => $path]);
+        }
 
-    // Handle avatar upload if present
-    if ($request->hasFile('avatar')) {
-        $path = $request->file('avatar')->store('avatars', 'public');
-        $user->update(['avatar' => $path]);
-    }
-
-    return redirect()->route('profile.edit', $user->id)->with('status', 'profile-updated');
+        return redirect()->back()->with('status', 'profile-updated');
     }
 
     /**

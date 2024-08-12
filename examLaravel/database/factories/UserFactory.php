@@ -25,16 +25,17 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $number = $this->faker->unique()->randomNumber();
+        $domain = $this->faker->unique()->domainWord; // Generates a random domain word
+
         return [
             'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'email' => strtolower($this->faker->firstName) . '.' . strtolower($this->faker->lastName) . '.' . $number . '@' . $domain . '.com',
+            'password' => Hash::make('password'), // Set a default password
             'remember_token' => Str::random(10),
-            'password' => Hash::make('password'),
             'created_at' => now(),
             'updated_at' => now(),
-            'birthday' => $this->faker->dateTimeBetween('-90 years', '-18 years')->format('Y-m-d'), 
+            'birthday' => $this->faker->dateTimeBetween('-90 years', '-18 years')->format('Y-m-d'),
             'bio' => $this->faker->sentence,
             'is_admin' => false, // Default to non-admin
         ];

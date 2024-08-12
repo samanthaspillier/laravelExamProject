@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateAdminRequest;
-use App\Http\Requests\UpdateUserRoleRequest;
-use App\Http\Requests\ProfileUpdateRequest;
-
 use App\Http\Middleware\AdminMiddleware;
-
 
 use App\Models\User;
 use App\Models\FAQ;
@@ -50,45 +45,58 @@ class AdminController extends Controller
     }
 
     /**
-     * Create a new admin user.
+     * go to the new user form
      */
-    public function createAdmin(CreateAdminRequest $request): RedirectResponse
+    public function newUser(): View
     {
-        $validated = $request->validated();
-
-        User::create([
-            'name' => $validated['name'],
-            'username' => $validated['username'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'is_admin' => true,
-        ]);
-
-        return redirect()->back()->with('success', 'Admin user created successfully');
-
+        return view('admin.newUser');
     }
+    /**
+     * Create a new user functions.
+     */
+
+    public function createUser(Request $request): RedirectResponse
+        {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'birthday' => 'nullable|date',
+                'bio' => 'nullable|string',
+                'avatar' => 'nullable|image|max:2048',
+                'role' => 'required|in:admin,user'
+            ]);
+        
+            $user = new User($validated);
+            if ($request->hasFile('avatar')) {
+                $user->avatar = $request->file('avatar')->store('avatars', 'public');
+            }
+            $user->password = Hash::make('defaultPassword'); // Set a default password or handle differently
+            $user->save();
+        
+            return redirect()->route('admin.dashboard')->with('success', 'User created successfully');
+        }
+     
 
     public function searchUsers(Request $request)
     {
         $searchTerm = $request->input('search');
-    $users = User::where('name', 'like', '%' . $searchTerm . '%')
-        ->orWhere('email', 'like', '%' . $searchTerm . '%')
-        ->orderBy('name', 'asc')
-        ->get();
+        $searchResults = User::where('name', 'like', '%' . $searchTerm . '%')
+                            ->orWhere('email', 'like', '%' . $searchTerm . '%')
+                            ->orderBy('name', 'asc')
+                            ->get();
 
-    // Fetch other data that is required by the dashboard view
-    $posts = Post::orderBy('published_at', 'desc')->take(5)->get(); // Latest posts for display
-    $allPosts = Post::orderBy('published_at', 'desc')->get(); // All posts for dropdown
-    $faqs = FAQ::all(); // Assuming you have FAQs data
-    $allUsers = User::orderBy('name', 'asc')->get(); // All users for dropdown
+  
 
-    return view('admin.dashboard', [
-        'posts' => $posts,
-        'faqs' => $faqs,
-        'users' => $users,
-        'allPosts' => $allPosts,
-        'allUsers' => $allUsers,
-    ]);
+        $posts = Post::orderBy('published_at', 'desc')->take(5)->get(); //latest posts for display
+        $allPosts = Post::orderBy('published_at', 'desc')->get(); //all posts for dropdown
+        $faqs=FAQ::all();
+        $users = User::orderBy('created_at', 'desc')->take(10)->get(); // lastest created users for display
+        $allUsers = User::orderBy('name', 'asc')->get(); // All users for dropdown
+        $unansweredMessages = ContactMessage::where('answered', false)->get();
+    
+        return view('admin.dashboard', compact(['posts', 'faqs', 'users', 'allPosts', 'allUsers', 'unansweredMessages', 'searchResults']));
+    
+    
     }
 
     public function editUser($id): View
@@ -97,29 +105,7 @@ class AdminController extends Controller
         return view('admin.editUser', compact('user'));
     }
 
-    public function updateUser(ProfileUpdateRequest $request, $user): RedirectResponse
-     {
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $filename = time() . '.' . $avatar->getClientOriginalExtension();
-            $path = $avatar->storeAs('public/images/avatars', $filename);
-
-            // Save the avatar path in the database
-            $user->avatar = 'images/avatars/' . $filename;
-        }
-
-        $user->update($request->all());
-
-        return Redirect::route('admin.dashboard')->with('status', 'profile-updated');
    
-       
-     
-     }
 
 
      /**
@@ -198,8 +184,17 @@ class AdminController extends Controller
 
         // Handle file upload
         if ($request->hasFile('cover_image')) {
-            $validatedData['cover_image'] = $request->file('cover_image')->store('cover_images');
+            \Log::info('File is being uploaded to: ' . public_path('images/covers'));
+            $file = $request->file('cover_image');
+            $filename = time() . '_' . $file->getClientOriginalName(); // Create a unique filename
+            // Move the file to the public directory
+            $file->move(public_path('images/covers'), $filename);
+            $validatedData['cover_image'] = 'images/covers/' . $filename;
         }
+
+        
+
+      
 
         Post::create($validatedData);
 
@@ -226,8 +221,14 @@ class AdminController extends Controller
         $post = Post::findOrFail($id);
 
         // Handle file upload
-        if ($request->hasFile('cover_image')) {
-            $validatedData['cover_image'] = $request->file('cover_image')->store('cover_images');
+          // Handle file upload
+          if ($request->hasFile('cover_image')) {
+            \Log::info('File is being uploaded to: ' . public_path('images/covers'));
+            $file = $request->file('cover_image');
+            $filename = time() . '_' . $file->getClientOriginalName(); // Create a unique filename
+            // Move the file to the public directory
+            $file->move(public_path('images/covers'), $filename);
+            $validatedData['cover_image'] = 'images/covers/' . $filename;
         }
 
         $post->update($validatedData);

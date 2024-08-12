@@ -24,6 +24,22 @@
                 <button type="submit" class="btn btnGreen mb-3">Search</button>
             </form>
 
+            <!-- Search Results -->
+            @if(isset($searchResults) && !$searchResults->isEmpty())
+                <div class="card mb-4">
+                    <div class="card-header">
+                        Search Results
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach($searchResults as $user)
+                            <li class="list-group-item">
+                            <a href="{{ route('admin.users.edit', $user->id) }}" class="link-primary">{{ $user->name }} - {{ $user->email }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <!-- Dropdown to select a user to edit -->
             <div class="mb-3">
                 <select id="userDropdown" class="form-select" onchange="window.location.href=this.value;">
@@ -61,7 +77,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <button class="btn btn-primary">Add New User</button>
-        </div>
+            <a href="{{ route('newUser') }}" class="btn btnRed btn-sm">Add a new user</a>
+            </div>
     </div>
 </section>

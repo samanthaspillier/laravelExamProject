@@ -39,7 +39,8 @@ Route::middleware('auth')->group(function () {
     
     // Admin-specific routes
     Route::middleware(['admin'])->group(function (){
-        Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('adminCreate');
+        Route::post('/admin/users', [AdminController::class, 'createUser'])->name('admin.users.store');
+        Route::get('admin/newUser', [AdminController::class, 'newUser'])->name('newUser');
         Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
         Route::get('/admin/users/search', [AdminController::class, 'searchUsers'])->name('admin.users.search');
