@@ -1,3 +1,15 @@
+<style>
+    .btnRed {
+        background-color: #C8102E;
+        color: white !important;
+    }
+    .btnGreen{
+        background-color: #007A33;
+        color: white !important;
+    }
+    
+</style>
+
 <section id="user-management">
     <h3>User Management</h3>
     <div class="card">
@@ -6,10 +18,10 @@
             
             <!-- Search Form -->
             <form action="{{ route('admin.users.search') }}" method="GET">
-                <div class="mb-3">
+                <div class="mb-2">
                     <input type="text" name="search" class="form-control" placeholder="Search by name or email">
                 </div>
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btnGreen mb-3">Search</button>
             </form>
 
             <!-- Dropdown to select a user to edit -->
@@ -43,7 +55,7 @@
                             <td>{{ $user->birthday }}</td>
                             <td>{{ $user->role ? 'Admin' : 'User' }}</td>
                             <td>
-                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btnRed btn-sm">Edit</a>
                             </td>
                         </tr>
                     @endforeach

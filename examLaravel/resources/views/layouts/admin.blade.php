@@ -7,11 +7,16 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
+
     <title>{{ config('app.name', 'Malawian Tours - Admin') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('page-specific-css')
+
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -19,9 +24,9 @@
 <body class="d-flex flex-column min-vh-100">
         @include('partials.adminHeader')
 
-        <main class="py-4 flex-grow-1">
+        <main class="flex-grow-1">
             <div class="container">
-            <h1 class="text-center mb-4">@yield('title')</h1>
+            <h1 class="text-center py-4 my-0">@yield('title')</h1>
             @yield('content')
 
 

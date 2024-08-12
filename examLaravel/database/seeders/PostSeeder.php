@@ -20,6 +20,8 @@ class PostSeeder extends Seeder
 
         // Create an instance of Faker
         $faker = Faker::create();
+        
+        // Post creation: content from https://malawiantour.wixsite.com/malawiantour-en
 
         Post::create([
         'title' => 'Magnificent landscapes in Nyika National Park',

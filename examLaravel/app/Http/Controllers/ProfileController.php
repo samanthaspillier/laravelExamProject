@@ -28,7 +28,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request, $id): RedirectResponse
     {
         $user = User::findOrFail($id);
 
@@ -47,7 +47,7 @@ class ProfileController extends Controller
         'email' => $validated['email'],
         'birthday' => $validated['birthday'],
         'bio' => $request->input('bio'),
-        'role' => $validated['role'] === 'admin' ? 1 : 0, // Assuming role is stored as an integer
+        'role' => $validated['role'] === 'admin' ? true : false,
     ]);
 
     // Handle avatar upload if present

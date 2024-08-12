@@ -12,6 +12,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -20,9 +22,9 @@
  
         @include('partials.header')
 
-        <main class="py-4 flex-grow-1">
+        <main class="flex-grow-1">
             <div class="container">
-            <h1 class="text-center mb-4">@yield('title')</h1>
+            <h1 class="text-center my-4">@yield('title')</h1>
             @yield('content')
 
 

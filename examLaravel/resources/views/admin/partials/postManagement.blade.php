@@ -1,3 +1,5 @@
+
+
 <section id="post-management" class="mb-5">
     <h3>Post Management</h3>
     <div class="card">
@@ -29,7 +31,7 @@
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->published_at->format('Y-m-d H:i') }}</td>
                             <td>
-                                <a href="{{ route('editPost', $post->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="{{ route('editPost', $post->id) }}" class="btn btnRed btn-sm">Edit</a>
                             </td>
                         </tr>
                     @endforeach

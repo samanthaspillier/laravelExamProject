@@ -12,7 +12,7 @@
                         Update Profile Information
                     </div>
                     <div class="card-body">
-                        @include('profile.partials.update-profile-information-form')
+                        @include('profile.partials.update-profile-information-form', ['user'=> Auth::user()])
                     </div>
                 </div>
             </div>

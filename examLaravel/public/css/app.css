@@ -1,0 +1,28 @@
+/* CSS for changing the color of header and footer */
+.green{
+    background-color: #007A33; /* Malawi green background */
+    color: white; /* White text color */
+    
+}
+
+
+
+
+.nav-item{
+    font-weight: bold;
+}
+
+.btn-primary{
+    background-color: #007A33 !important;
+    border-color: #007A33 !important;
+}
+
+.btnRed, .btn-secondary {
+    background-color: #C8102E !important;
+    border-color:#C8102E !important;
+    color: white !important;
+}
+.btnGreen, {
+    background-color: #007A33;
+    color: white !important;
+}

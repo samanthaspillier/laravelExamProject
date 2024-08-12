@@ -23,26 +23,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(15)->create();
-/*
+        User::factory(15)->create();
+
         User::factory()->admin()->create([
             'name' => 'admin',
             'email' => 'admin@ehb.be',
+            'bio' => 'Admin user',
             'password' => Hash::make('Password!123'),
         ]);
+      
+            
 
+       // Post::factory(10)->create(); // create 10 random posts if display of pagination is needed
+
+        Comment::factory(10)->create(); // create 10 random comments to display on the posts
+
+       $this->call(FaqSeeder::class); // call to FAQ seeder. Fixed content
         
-        User::factory()->admin()->create();
-        */
+        $this->call(ContactMessageSeeder::class); // call to ContactMessage seeder. static content
 
-       // Post::factory(10)->create();
-
-        //Comment::factory(5)->create();
-
-       // $this->call(FaqSeeder::class);
-        
-        // $this->call(ContactMessageSeeder::class);
-        $this->call(PostSeeder::class);
+        $this->call(PostSeeder::class); //call to Post seeder. Static content comming from https://malawiantour.wixsite.com/malawiantour-en
 
     
     

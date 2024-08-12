@@ -30,7 +30,7 @@ Route::post('/contact', [ContactMessageController::class, 'submitForm'])->name('
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/delete/{user}', [ProfileController::class, 'destroy'])->name('profile.delete');
     Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/users', [UserController::class, 'index'])->name('user.index');
@@ -39,13 +39,12 @@ Route::middleware('auth')->group(function () {
     
     // Admin-specific routes
     Route::middleware(['admin'])->group(function (){
-        Route::put('/users/{id}/role', [AdminController::class, 'updateRole'])->name('UpdateRole');
         Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('adminCreate');
         Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
         Route::get('/admin/users/search', [AdminController::class, 'searchUsers'])->name('admin.users.search');
         Route::get('/admin/message/{message}/answer', [AdminController::class, 'answerMessageForm'])->name('answerMessage');
-        Route::post('/admin/message/{message}/answer', [AdminController::class, 'submitAnswer'])->name('submitAnswer');
+        Route::post('/admin/contact-message/{message}/answer', [AdminController::class, 'submitAnswer'])->name('submitAnswer');
 
 
 

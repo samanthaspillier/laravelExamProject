@@ -1,9 +1,15 @@
+<style>
+    .btnRed {
+        background-color: #C8102E;
+        color: white !important;
+    }
+    
+</style>
+
 <section id="contact-message-management" class="mb-5">
     <h3>Contact Message Management</h3>
     <div class="card">
-        <div class="card-header">
-            Manage Contact Messages
-        </div>
+
         <div class="card-body">
             <!-- Table for listing unanswered messages -->
             <table class="table table-striped">
@@ -22,7 +28,7 @@
                             <td>{{ $message->category }}</td>
                             <td>{{ \Str::limit($message->message, 50) }}</td>
                             <td>
-                                <a href="{{ route('answerMessage', $message->id) }}" class="btn btn-primary btn-sm">Answer</a>
+                                <a href="{{ route('answerMessage', $message->id) }}" class="btn btn-sm btnRed">Answer</a>
                             </td>
                         </tr>
                     @endforeach

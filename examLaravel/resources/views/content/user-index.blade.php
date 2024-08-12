@@ -16,7 +16,7 @@
                             <a href="{{ route('profile.show', $user->id) }}" class="btn btn-primary">View Profile</a>
                         </div>
                         <!-- User avatar -->
-                        <img src="{{ asset($user->avatar ? $user->avatar : 'images/default-avatar.jpg') }}" class="img-fluid rounded-circle" alt="Avatar" style="max-height: 80px; max-width: 80px;">
+                        <img src="{{ asset($user->avatar ? $user->avatar : 'images/default-avatar.png') }}" class="img-fluid rounded-circle" alt="Avatar" style="max-height: 80px; max-width: 80px;">
                     </div>
                 </div>
             </div>
