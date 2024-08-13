@@ -63,9 +63,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/categories', [FaqCategoriesController::class, 'index'])->name('admin.categories');
         Route::get('/admin/categories/create', [FaqCategoriesController::class, 'create'])->name('createCategory');
         Route::post('/admin/categories', [FaqCategoriesController::class, 'store'])->name('storeCategory');
-        Route::get('/admin/categories/{category}/edit', [FaqCategoriesController::class, 'edit'])->name('editCategory');
+        Route::get('/admin/categories/{category}/edit', [FaqCategoriesController::class, 'edit'])->name('editCategory'); // Updated: Moved 'edit' after {category}
         Route::put('/admin/categories/{category}', [FaqCategoriesController::class, 'update'])->name('updateCategory');
-        Route::get('/admin/categories/delete/{category}', [FaqCategoriesController::class, 'destroy'])->name('deleteCategory');
+        Route::get('/admin/categories/{category}/delete', [FaqCategoriesController::class, 'destroy'])->name('deleteCategory'); // Optional: Update for consistency
         
         Route::get('/admin/post/create', [PostController::class, 'createPost'])->name('createPost');
         Route::post('/admin/post', [PostController::class, 'storePost'])->name('storePost');

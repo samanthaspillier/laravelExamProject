@@ -35,15 +35,15 @@
 
         <div class="col-md-10 py-4">
             <!-- Contact Messages Section -->
-            @include('admin.partials.contactManagement')
+            @include('admin.contactMessages.contactManagement')
             <!-- Post Management Section -->
-            @include('admin.partials.postManagement')
+            @include('admin.posts.postManagement')
 
             <!-- FAQ Management Section -->
-            @include('admin.partials.faqManagement')
+            @include('admin.faqs.faqManagement')
 
             <!-- User Management Section -->
-            @include('admin.partials.userManagement')
+            @include('admin.users.userManagement')
         </div>
     </div>
 </div>

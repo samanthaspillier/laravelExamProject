@@ -51,7 +51,7 @@ class ContactMessageController extends Controller
     public function showMessage($id): View
     {
         $message = ContactMessage::findOrFail($id);
-        return view('admin.answerMessage', compact('message'));
+        return view('admin.contactMessages.answerMessage', compact('message'));
     }
 
    

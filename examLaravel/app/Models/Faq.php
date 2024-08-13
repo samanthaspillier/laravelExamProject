@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\FaqCategory;
 
 class Faq extends Model
 {
@@ -14,7 +15,7 @@ class Faq extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(FaqCategory::class);
     }
     
 }

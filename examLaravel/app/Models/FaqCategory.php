@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\FaqCategories;
+use App\Models\FAQ;
 
-class FaqCategories extends Model
+class FaqCategory extends Model
 {
     use HasFactory;
+    protected $fillable = ['name'];
     
     public function faqs()
     {

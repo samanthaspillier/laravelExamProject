@@ -5,9 +5,9 @@
 @section('content')
 <div class="container my-4">
     <div class="row justify-content-center">
-        @foreach ($faqs->groupBy('category') as $category => $faqsByCategory)
+        @foreach ($faqs->groupBy('category.name') as $categoryName => $faqsByCategory)
             <div class="col-md-10 mb-4">
-                <h2 class="mb-4">{{ $category }}</h2> <!-- Display the category name -->
+                <h2 class="mb-4">{{ $categoryName }}</h2> <!-- Display the category name -->
 
                 @foreach ($faqsByCategory as $faq)
                     <div class="mb-3">
@@ -53,6 +53,4 @@
         @endauth     
     </div>
 </div>
-
 @endsection
-

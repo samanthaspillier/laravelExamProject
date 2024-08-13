@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\AdminMiddleware;
+
+use App\Models\FAQ;
+use App\Models\FaqCategory;
+
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use App\Models\Faq;
-
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 
 class FaqController extends Controller
 {
@@ -23,7 +30,10 @@ class FaqController extends Controller
 
     public function showFAQ(): View
     {
-        $faqs = FAQ::orderBy('category')->get();
+       // Eager load the category relationship
+        $faqs = FAQ::with('category')->get();
+
+    
         return view('content.faq', compact('faqs'));
     }
 
@@ -32,55 +42,84 @@ class FaqController extends Controller
       */
       public function createFaq(): View
       {
-          return view('admin.editFaq', ['faq' => new FAQ]);
+        // Load distinct categories from the faq_categories table
+        $categories = FaqCategory::orderBy('name', 'asc')->get();
+
+         return view('admin.faqs.editFaq', [
+            'faq' => new FAQ, 
+            'categories' => $categories
+    ]);
       }
   
       public function storeFaq(Request $request): RedirectResponse
       {
-          $request->validate([
-              'question' => 'required|string|max:255',
-              'answer' => 'required|string',
-          ]);
-  
-          FAQ::create([
-              'question' => $request->input('question'),
-              'answer' => $request->input('answer'),
-          ]);
-  
-          return redirect()->back()->with('success', 'FAQ created successfully');
+        $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+            'category' => 'required_without:new_category|string',
+            'new_category' => 'nullable|string|max:255',
+        ]);
+    
+        $categoryId = $request->input('category');
+        
+        if ($request->input('category') === 'new' && $request->input('new_category')) {
+            // Create a new category if 'Other' is selected and a new category is provided
+            $newCategory = FaqCategory::create([
+                'name' => $request->input('new_category')
+            ]);
+            $categoryId = $newCategory->id;
+        }
+    
+        FAQ::create([
+            'question' => $request->input('question'),
+            'answer' => $request->input('answer'),
+            'category_id' => $categoryId,
+        ]);
+    
+        return redirect()->back()->with('success', 'FAQ created successfully');
       }
+
+
       public function editFaq($id): View
       {
-          $faq = FAQ::findOrFail($id);
-  
-           // Load distinct categories from the faqs table
-           $categories = FAQ::select('category')->distinct()->orderBy('category', 'asc')->get();
-  
-          return view('admin.editFaq', compact('faq', 'categories'));
+        $faq = FAQ::findOrFail($id);
+        $categories = FaqCategory::orderBy('name', 'asc')->get();
+        
+        return view('admin.faqs.editFaq', compact('faq', 'categories'));
       }
   
-      public function updateFaq(Request $request, $id): RedirectResponse
-      {
-            $request->validate([
-                'question' => 'required|string|max:255',
-                'answer' => 'required|string',
-                'category' => 'required|string',
-                'new_category' => 'nullable|string|max:255',
+    public function updateFaq(Request $request, $id): RedirectResponse
+    {
+        $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+            'category' => 'required_without:new_category|string',
+            'new_category' => 'nullable|string|max:255',
+        ]);
+
+        $faq = FAQ::findOrFail($id);
+
+        // Determine the category ID
+        if ($request->input('category') === 'new' && $request->input('new_category')) {
+            // Create a new category if 'Other' is selected and a new category is provided
+            $newCategory = FaqCategory::create([
+                'name' => $request->input('new_category')
             ]);
-        
-            $faq = FAQ::findOrFail($id);
-        
-            $category = $request->input('category') === 'new' ? $request->input('new_category') : $request->input('category');
-        
-        
-            $faq->update([
-                'question' => $request->input('question'),
-                'answer' => $request->input('answer'),
-                'category' =>  $category,       
-            ]);
-        
-            return redirect()->back()->with('success', 'FAQ updated successfully');
-      }
+            $categoryId = $newCategory->id;
+        } else {
+            // Use the selected category ID
+            $categoryId = $request->input('category');
+        }
+
+        $faq->update([
+            'question' => $request->input('question'),
+            'answer' => $request->input('answer'),
+            'category_id' => $categoryId,
+        ]);
+
+        return redirect()->back()->with('success', 'FAQ updated successfully');
+    }
+
   
       public function deleteFaq(Request $request, $id): RedirectResponse
       {

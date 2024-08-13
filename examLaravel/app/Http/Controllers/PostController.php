@@ -41,7 +41,7 @@ class PostController extends Controller
      */
     public function createPost()
     {
-        return view('admin.editPost', ['post' => new Post]);
+        return view('admin.posts.editPost', ['post' => new Post]);
     }
 
     public function storePost(Request $request)
@@ -76,7 +76,7 @@ class PostController extends Controller
     {
         // Find the post by ID and show the edit form
         $post = Post::findOrFail($id);
-        return view('admin.editPost', compact('post'));
+        return view('admin.posts.editPost', compact('post'));
     }
 
     public function updatePost(Request $request, $id)

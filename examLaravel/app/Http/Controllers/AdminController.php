@@ -9,7 +9,7 @@ use App\Models\FAQ;
 use App\Models\Post;
 use App\Models\ContactMessage;
 use App\Models\Comment;
-use App\Models\FaqCategories;
+use App\Models\FaqCategory;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -42,7 +42,7 @@ class AdminController extends Controller
         $users = User::orderBy('created_at', 'desc')->take(10)->get(); // lastest created users for display
         $allUsers = User::orderBy('name', 'asc')->get(); // All users for dropdown
         $unansweredMessages = ContactMessage::where('answered', false)->get(); //only unanswered messages
-        $categories = FaqCategories::all(); //all available categories
+        $categories = FaqCategory::all(); //all available categories
        
         
         return view('admin.dashboard', compact(['posts', 'faqs', 'users', 'allPosts', 'allUsers', 'unansweredMessages', 'categories']));
@@ -53,7 +53,7 @@ class AdminController extends Controller
      */
     public function newUser(): View
     {
-        return view('admin.newUser');
+        return view('admin.users.newUser');
     }
    
 
@@ -99,8 +99,7 @@ class AdminController extends Controller
         $allUsers = User::orderBy('name', 'asc')->get(); // All users for dropdown
         $unansweredMessages = ContactMessage::where('answered', false)->get();
     
-         // Load distinct categories from the faqs table
-         $categories = FAQ::select('category')->distinct()->orderBy('category', 'asc')->get();
+         $categories = FaqCategory::all(); //all available categories
         
         return view('admin.dashboard', compact(['posts', 'faqs', 'users', 'allPosts', 'allUsers', 'unansweredMessages', 'categories', 'searchResults']));    
     
@@ -109,7 +108,7 @@ class AdminController extends Controller
     public function editUser($id): View
     {
         $user = User::findOrFail($id);
-        return view('admin.editUser', compact('user'));
+        return view('admin.users.editUser', compact('user'));
     }
 
    

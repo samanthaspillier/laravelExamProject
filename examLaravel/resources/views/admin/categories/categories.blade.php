@@ -8,17 +8,17 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <form action="{{ route('editCategory', '') }}" method="GET">
-                <div class="mb-3">
-                    <label for="category" class="form-label">Select a Category to Edit</label>
-                    <select id="category" name="category" class="form-select" onchange="this.form.action = this.form.action.replace('__CATEGORY__', this.value); this.form.submit();">
-                        <option value="">Select a category...</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </form>
+            <!-- Dropdown to select a category to edit -->
+            <div class="mb-3">
+                <label for="categoryDropdown" class="form-label">Select a Category to Edit</label>
+                <select id="categoryDropdown" class="form-select" onchange="window.location.href=this.value;">
+                    <option value="">Select a category...</option>
+                    @foreach($categories as $category)
+                        <option value="{{ route('editCategory', $category->id) }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <a href="{{ route('createCategory') }}" class="btn btn-primary mt-3">Create New Category</a>
         </div>
     </div>
