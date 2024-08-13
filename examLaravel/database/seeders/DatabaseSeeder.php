@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
 
         Comment::factory(10)->create(); // create 10 random comments to display on the posts
 
-       $this->call(FaqSeeder::class); // call to FAQ seeder. Fixed content
+        $this->call(FaqSeeder::class); // call to FAQ seeder. Fixed content
         
         $this->call(ContactMessageSeeder::class); // call to ContactMessage seeder. static content
 
