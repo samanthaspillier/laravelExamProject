@@ -12,4 +12,6 @@ class UserController extends Controller
         $users = User::paginate(12); // Adjust pagination as needed
         return view('content.user-index', compact('users'));
     }
+
+    
 }

@@ -12,6 +12,9 @@ class Faq extends Model
     protected $fillable = ['question', 'answer', 'category'];
     public $timestamps = true;
 
-
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
     
 }

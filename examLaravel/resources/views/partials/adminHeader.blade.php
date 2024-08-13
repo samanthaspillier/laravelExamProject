@@ -1,9 +1,9 @@
 <header>
 
-<nav class="navbar navbar-expand-md green shadow-sm">
+<nav class="navbar navbar-expand-md navbar-dark green shadow-sm">
     <div class="container">
     <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url('/') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 30px; width: auto; margin-right: 10px;"> <!-- Adjust the src as needed -->
+    <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 30px; width: auto; margin-right: 10px;"> <!-- Adjust the src as needed -->
                 {{ config('app.name', 'Malawian Tour') }}
             </a>
         <button class="navbar-toggler white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

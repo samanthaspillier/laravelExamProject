@@ -14,10 +14,14 @@ return new class extends Migration
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->dropColumn('category');
             $table->string('question');
             $table->text('answer');
+            $table->unsignedBigInteger('category_id')->nullable();
+
+            // Add foreign key constraint
+            $table->foreign('category_id')->references('id')->on('faq_categories')->onDelete('set null');
         });
+    
     }
 
     /**

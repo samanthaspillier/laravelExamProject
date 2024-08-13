@@ -69,7 +69,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->birthday }}</td>
-                            <td>{{ $user->role ? 'Admin' : 'User' }}</td>
+                            <td>{{ $user->is_admin ? 'Admin' : 'User' }}</td>
                             <td>
                                 <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btnRed btn-sm">Edit</a>
                             </td>

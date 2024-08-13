@@ -6,9 +6,15 @@ use App\Models\User;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
+
+use Illuminate\Validation\Rules\Password;
+
 use Illuminate\View\View;
+
 
 class ProfileController extends Controller
 {
@@ -33,7 +39,6 @@ class ProfileController extends Controller
         $userToUpdate = User::findOrFail($toupdate);
         $requestor = $request->user();
         // Debugging: dump user ID to make sure it's correct
-        \Log::debug('Updating user: ' . $userToUpdate->id);
 
         // Validate the input
         $validated = $request->validate([
@@ -42,7 +47,7 @@ class ProfileController extends Controller
             'birthday' => 'nullable|date',
             'bio' => 'nullable|string',
             'avatar' => 'nullable|image|max:2048',
-            'role' => 'in:admin,user' // Validate the role field
+            'role' => 'in:admin,user', // Validate the role field if it exists
         ]);
     
         // Update the user's data
@@ -51,17 +56,26 @@ class ProfileController extends Controller
             'email' => $validated['email'],
             'birthday' => $validated['birthday'],
             'bio' => $validated['bio'],
-            'role' => $validated['role'] === 'admin' ? true : false,
+        ]);
+        
+        // Only update the role if the current user is an admin and the role input is present
+         if ($requestor->isAdmin() && $request->has('role')) {
+        $userToUpdate->update([
+            'is_admin' => $validated['role'] === 'admin' ? true : false,
         ]);
 
-        // Handle avatar upload if present
-        if ($request->hasFile('avatar')) {
-            $path = $request->file('avatar')->store('avatars', 'public');
-            $userToUpdate->update(['avatar' => $path]);
+
+
         }
 
-        return redirect()->back()->with('status', 'profile-updated');
-    }
+            // Handle avatar upload if present
+            if ($request->hasFile('avatar')) {
+                $path = $request->file('avatar')->store('avatars', 'public');
+                $userToUpdate->update(['avatar' => $path]);
+            }
+
+            return redirect()->back()->with('status', 'profile-updated');
+        }
 
     /**
      * Delete the user's account.
@@ -91,6 +105,8 @@ class ProfileController extends Controller
         }
        
     }
+   
+    
 
     /**
      * Display the user's profile.

@@ -31,7 +31,7 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name,
             'email' => strtolower($this->faker->firstName) . '.' . strtolower($this->faker->lastName) . '.' . $number . '@' . $domain . '.com',
-            'password' => Hash::make('password'), // Set a default password
+            'password' => Hash::make('Password!123'), // Default password for all
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),

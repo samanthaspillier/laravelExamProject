@@ -16,6 +16,7 @@
             </div>
             
             <a href="{{ route('createFaq') }}" class="btn btn-primary btn-sm">Add a FAQ</a>
+            <a href="{{ route('admin.categories') }}" class="btn btn-secondary btn-sm">Manage Categories</a>
             </div>
     </div>
 </section>
