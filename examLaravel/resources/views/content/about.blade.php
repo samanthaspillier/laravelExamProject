@@ -12,29 +12,32 @@
             <ul class="list-unstyled">
                 <li>Travel Posts</li>
                 <li>User Profile</li>
-                <li>About</li>
-                <li>FAQ Section</li>
+                <li>FAQ and About Section</li>
                 <li>Contact Form</li>
                 <li>Admin Dashboard</li>
             </ul>
         </section>
-        
-        <section class="text-center mt-4">
-            <h2>Installation</h2>
-            <ol class="list-unstyled">
-                <li>Clone the Repository</li>
-                <li>Navigate to the Project Directory</li>
-                <li>Install Dependencies</li>
-                <li>Set Up Environment Variables</li>
-                <li>Generate Application Key</li>
-                <li>Run Migrations and Seed the Database</li>
-                <li>Serve the Application</li>
-            </ol>
-        </section>
+
         <section class="text-center mt-4">
             <h2>License</h2>
             <p>This project is licensed under the MIT License.</p>
         </section>
+        
+        <section class="mt-4">
+            <h2 class="text-center">Installation</h2>
+            <ol>
+                <li>Clone the <a href="https://github.com/samanthaspillier/laravelExamProject.git">Repository</a></li>
+                <li>Navigate to the Project Directory: <code>cd examLaravel</code></li>
+                <li>Ensure you have composer installed</li>
+                <li>Install Dependencies: <code>composer install</code></li>
+                <li>Set Up Environment Variables: Copy `.env.example` and update the configurations</li>
+                <li>Generate Application Key: <code>  php artisan key:generate</code></li>
+                <li>Run Migrations and Seed the Database: <code>   php artisan php artisan migrate:fresh --seed</code></li>
+                <li>Serve the Application: <code>php artisan serve</code></li>
+                <li>Visit the Application: <a href="http://localhost:8000">http://localhost:8000</a></li>
+            </ol>
+        </section>
+        
     </div>
 
     <!-- Right Column -->
